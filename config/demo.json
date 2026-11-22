@@ -1,0 +1,12 @@
+{
+  "data_classification": "synthetic-only",
+  "export_dir": "output/generated/reports",
+  "raw_current_dir": "data/raw/current",
+  "raw_previous_dir": "data/raw/previous",
+  "reject_bad_rows": false,
+  "report_timezone": "UTC",
+  "seed": 2026,
+  "sqlite_path": "output/generated/carerecon.sqlite",
+  "current_snapshot_date": "2026-05-31",
+  "previous_snapshot_date": "2026-04-30"
+}

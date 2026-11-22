@@ -1,0 +1,2 @@
+# Runtime: Python 3.11+ standard library only.
+# Optional Excel xlsx export may use openpyxl only if installed; it MUST NOT be required.

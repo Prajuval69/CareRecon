@@ -1,0 +1,399 @@
+{
+  "batch_id": "evidence-2026",
+  "built_in_contract_rules": {
+    "CN001": "Record does not satisfy its source contract.",
+    "CN002": "Business key repeats in a source that requires unique keys."
+  },
+  "classification": "synthetic-only",
+  "config_sha256": "a61b78e5f3d0f591caba34fed8c3cd6166b0ea2f9c02afc106e5169cb25b23ef",
+  "contract_manifest": {
+    "contracts": {
+      "member_eligibility": {
+        "business_key": [
+          "member_id"
+        ],
+        "fields": {
+          "effective_date": {
+            "type": "date"
+          },
+          "end_date": {
+            "type": "date"
+          },
+          "member_id": {
+            "type": "text"
+          },
+          "plan_id": {
+            "type": "text"
+          }
+        },
+        "intervals": [
+          [
+            "effective_date",
+            "end_date"
+          ]
+        ],
+        "required": [
+          "member_id",
+          "effective_date",
+          "end_date",
+          "plan_id"
+        ]
+      },
+      "payer_claims": {
+        "business_key": [
+          "payer_claim_id"
+        ],
+        "fields": {
+          "allowed_cents": {
+            "type": "integer"
+          },
+          "billed_cents": {
+            "type": "integer"
+          },
+          "member_id": {
+            "nullable": true,
+            "type": "text"
+          },
+          "paid_cents": {
+            "type": "integer"
+          },
+          "payer_claim_id": {
+            "type": "text"
+          },
+          "provider_id": {
+            "type": "text"
+          },
+          "service_date": {
+            "type": "date"
+          },
+          "status": {
+            "choices": [
+              "PAID",
+              "DENIED"
+            ],
+            "type": "enum"
+          }
+        },
+        "money_col": "paid_cents",
+        "required": [
+          "payer_claim_id",
+          "member_id",
+          "provider_id",
+          "service_date",
+          "status",
+          "billed_cents",
+          "allowed_cents",
+          "paid_cents"
+        ]
+      },
+      "pharmacy_claims": {
+        "business_key": [
+          "rx_claim_id"
+        ],
+        "fields": {
+          "days_supply": {
+            "type": "integer"
+          },
+          "fill_date": {
+            "type": "date"
+          },
+          "member_id": {
+            "type": "text"
+          },
+          "ndc": {
+            "type": "text"
+          },
+          "original_rx_claim_id": {
+            "nullable": true,
+            "type": "text"
+          },
+          "paid_cents": {
+            "type": "integer"
+          },
+          "pharmacy_id": {
+            "type": "text"
+          },
+          "quantity": {
+            "min": 0,
+            "type": "integer"
+          },
+          "rx_claim_id": {
+            "type": "text"
+          },
+          "transaction_type": {
+            "choices": [
+              "DISPENSE",
+              "REVERSAL"
+            ],
+            "type": "enum"
+          }
+        },
+        "money_col": "paid_cents",
+        "required": [
+          "rx_claim_id",
+          "member_id",
+          "pharmacy_id",
+          "ndc",
+          "fill_date",
+          "days_supply",
+          "quantity",
+          "paid_cents",
+          "transaction_type",
+          "original_rx_claim_id"
+        ]
+      },
+      "pharmacy_directory": {
+        "business_key": [
+          "pharmacy_id"
+        ],
+        "fields": {
+          "active_from": {
+            "type": "date"
+          },
+          "active_to": {
+            "type": "date"
+          },
+          "name": {
+            "type": "text"
+          },
+          "pharmacy_id": {
+            "type": "text"
+          }
+        },
+        "intervals": [
+          [
+            "active_from",
+            "active_to"
+          ]
+        ],
+        "required": [
+          "pharmacy_id",
+          "name",
+          "active_from",
+          "active_to"
+        ]
+      },
+      "provider_directory": {
+        "business_key": [
+          "provider_id"
+        ],
+        "fields": {
+          "active_from": {
+            "type": "date"
+          },
+          "active_to": {
+            "type": "date"
+          },
+          "provider_id": {
+            "type": "text"
+          },
+          "specialty": {
+            "type": "text"
+          }
+        },
+        "intervals": [
+          [
+            "active_from",
+            "active_to"
+          ]
+        ],
+        "required": [
+          "provider_id",
+          "specialty",
+          "active_from",
+          "active_to"
+        ]
+      },
+      "provider_remittances": {
+        "business_key": [
+          "remit_id"
+        ],
+        "fields": {
+          "paid_cents": {
+            "type": "integer"
+          },
+          "payer_claim_id": {
+            "type": "text"
+          },
+          "provider_id": {
+            "type": "text"
+          },
+          "remit_date": {
+            "type": "date"
+          },
+          "remit_id": {
+            "type": "text"
+          },
+          "remit_status": {
+            "choices": [
+              "POSTED",
+              "VOID"
+            ],
+            "type": "enum"
+          }
+        },
+        "money_col": "paid_cents",
+        "required": [
+          "remit_id",
+          "payer_claim_id",
+          "provider_id",
+          "remit_date",
+          "paid_cents",
+          "remit_status"
+        ]
+      },
+      "source_controls": {
+        "business_key": [
+          "source_name"
+        ],
+        "fields": {
+          "expected_paid_cents": {
+            "type": "integer"
+          },
+          "expected_rows": {
+            "min": 0,
+            "type": "integer"
+          },
+          "snapshot_date": {
+            "type": "date"
+          },
+          "source_name": {
+            "type": "text"
+          }
+        },
+        "required": [
+          "source_name",
+          "expected_rows",
+          "expected_paid_cents",
+          "snapshot_date"
+        ]
+      }
+    },
+    "schema_version": 1
+  },
+  "import_policy": "collect-errors",
+  "rule_manifest": {
+    "rules": [
+      {
+        "dataset": "payer_claims",
+        "description": "Claim ID repeated in current source; compare raw rows before curation.",
+        "enabled": true,
+        "name": "DUPLICATE_CLAIM_ID",
+        "rule_id": "DQ001",
+        "severity": "ERROR",
+        "version": 1
+      },
+      {
+        "dataset": "payer_claims",
+        "description": "Member ID required for every claim.",
+        "enabled": true,
+        "name": "MISSING_MEMBER",
+        "rule_id": "DQ002",
+        "severity": "ERROR",
+        "version": 1
+      },
+      {
+        "dataset": "payer_claims",
+        "description": "Provider key not found in provider directory.",
+        "enabled": true,
+        "name": "PROVIDER_NOT_FOUND",
+        "rule_id": "DQ003",
+        "severity": "ERROR",
+        "version": 1
+      },
+      {
+        "dataset": "payer_claims",
+        "description": "Service date outside identified member eligibility; review contract assumptions.",
+        "enabled": true,
+        "name": "INELIGIBLE_SERVICE_DATE",
+        "rule_id": "DQ004",
+        "severity": "WARN",
+        "version": 1
+      },
+      {
+        "dataset": "payer_claims",
+        "description": "Paid cents exceeds allowed cents for ordinary paid transaction.",
+        "enabled": true,
+        "name": "PAID_EXCEEDS_ALLOWED",
+        "rule_id": "DQ005",
+        "severity": "ERROR",
+        "version": 1
+      },
+      {
+        "dataset": "payer_claims",
+        "description": "Denied claim has nonzero payment; may require adjudication context.",
+        "enabled": true,
+        "name": "DENIED_WITH_PAYMENT",
+        "rule_id": "DQ006",
+        "severity": "WARN",
+        "version": 1
+      },
+      {
+        "dataset": "provider_remittances",
+        "description": "Aggregated posted remittance amount differs from payer claim paid amount.",
+        "enabled": true,
+        "name": "REMIT_AMOUNT_MISMATCH",
+        "rule_id": "RC001",
+        "severity": "ERROR",
+        "version": 1
+      },
+      {
+        "dataset": "provider_remittances",
+        "description": "Remittance references non-existent payer claim.",
+        "enabled": true,
+        "name": "ORPHAN_REMIT",
+        "rule_id": "RC002",
+        "severity": "ERROR",
+        "version": 1
+      },
+      {
+        "dataset": "pharmacy_claims",
+        "description": "Positive dispensing transaction must have days_supply >=1.",
+        "enabled": true,
+        "name": "RX_INVALID_DAYS_SUPPLY",
+        "rule_id": "RX001",
+        "severity": "ERROR",
+        "version": 1
+      },
+      {
+        "dataset": "pharmacy_claims",
+        "description": "Reversal lacks a valid matching original transaction.",
+        "enabled": true,
+        "name": "RX_ORPHAN_REVERSAL",
+        "rule_id": "RX002",
+        "severity": "ERROR",
+        "version": 1
+      },
+      {
+        "dataset": "source_controls",
+        "description": "Source control expected row count differs from raw row count.",
+        "enabled": true,
+        "name": "SOURCE_ROW_COUNT_MISMATCH",
+        "rule_id": "CT001",
+        "severity": "ERROR",
+        "version": 1
+      },
+      {
+        "dataset": "source_controls",
+        "description": "Source control expected paid cents differs from raw sum.",
+        "enabled": true,
+        "name": "SOURCE_AMOUNT_MISMATCH",
+        "rule_id": "CT002",
+        "severity": "ERROR",
+        "version": 1
+      },
+      {
+        "dataset": "payer_claims_previous",
+        "description": "Claim key present in prior snapshot missing in current; investigate late changes before conclusions.",
+        "enabled": true,
+        "name": "DISAPPEARED_CLAIM",
+        "rule_id": "SS001",
+        "severity": "REVIEW",
+        "version": 1
+      }
+    ],
+    "schema_version": "1.0.0"
+  },
+  "run_id": "1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc",
+  "schema_version": 1
+}

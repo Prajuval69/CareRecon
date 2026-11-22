@@ -1,0 +1,5 @@
+# Golden fixture contract — do not mutate to pass
+
+`data/expected/seeded_scenarios.json` specifies **13 planted scenarios**. Specific mapping: DQ001/P003 duplicate; DQ002/P006 missing member; DQ003/P007 unknown provider; DQ004/P008 outside M013 coverage; DQ005/P009 paid > allowed; DQ006/P010 denied with payment; RC001/P012 remittance +275 cents; RC002/RM_ORPHAN missing claim; RX001/RX003 zero days supply; RX002/RX004 reversal referencing unknown original; CT001/payer_claims declared row total +1; CT002/pharmacy_claims paid-control +1234 cents; SS001/P099 prior key missing now.
+
+**Negative example:** RX010 references RX002 with exactly opposite paid amount; must NOT be flagged as orphan or categorically invalid due to negative payment. These seeded scenarios are for expected test coverage, not real adjudication rules. Additional legitimate overlapping findings may arise, but every seeded rule/record must be present exactly once per run, and clean-case controls must not be falsely flagged. Maintain the fixture generator's deterministic seed.

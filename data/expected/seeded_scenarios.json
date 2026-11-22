@@ -1,0 +1,106 @@
+{
+  "dataset_label": "Synthetic examples only; not real persons, organizations or medical records",
+  "expected_findings": [
+    {
+      "reason": "duplicate raw claim business key",
+      "record_id": "P003",
+      "rule_id": "DQ001",
+      "source": "payer_claims"
+    },
+    {
+      "reason": "empty member identifier",
+      "record_id": "P006",
+      "rule_id": "DQ002",
+      "source": "payer_claims"
+    },
+    {
+      "reason": "provider PR999 missing",
+      "record_id": "P007",
+      "rule_id": "DQ003",
+      "source": "payer_claims"
+    },
+    {
+      "reason": "service outside M013 eligibility",
+      "record_id": "P008",
+      "rule_id": "DQ004",
+      "source": "payer_claims"
+    },
+    {
+      "reason": "paid amount exceeds allowed amount",
+      "record_id": "P009",
+      "rule_id": "DQ005",
+      "source": "payer_claims"
+    },
+    {
+      "reason": "denied with nonzero payment",
+      "record_id": "P010",
+      "rule_id": "DQ006",
+      "source": "payer_claims"
+    },
+    {
+      "reason": "posted remit differs by 275 cents",
+      "record_id": "P012",
+      "rule_id": "RC001",
+      "source": "provider_remittances"
+    },
+    {
+      "reason": "remit references missing payer claim",
+      "record_id": "RM_ORPHAN",
+      "rule_id": "RC002",
+      "source": "provider_remittances"
+    },
+    {
+      "reason": "zero days supply",
+      "record_id": "RX003",
+      "rule_id": "RX001",
+      "source": "pharmacy_claims"
+    },
+    {
+      "reason": "reversal cannot find RX_UNKNOWN",
+      "record_id": "RX004",
+      "rule_id": "RX002",
+      "source": "pharmacy_claims"
+    },
+    {
+      "reason": "declared rows exceeds actual by one",
+      "record_id": "payer_claims",
+      "rule_id": "CT001",
+      "source": "source_controls"
+    },
+    {
+      "reason": "declared paid cents exceeds raw sum by 1234",
+      "record_id": "pharmacy_claims",
+      "rule_id": "CT002",
+      "source": "source_controls"
+    },
+    {
+      "reason": "prior snapshot key missing from current",
+      "record_id": "P099",
+      "rule_id": "SS001",
+      "source": "payer_claims_previous"
+    }
+  ],
+  "expected_raw_rows": {
+    "member_eligibility": 13,
+    "payer_claims": 19,
+    "payer_claims_previous": 13,
+    "pharmacy_claims": 10,
+    "pharmacy_directory": 4,
+    "provider_directory": 6,
+    "provider_remittances": 7,
+    "source_controls": 6
+  },
+  "must_not_flag": [
+    {
+      "reason": "matched original RX002",
+      "record_id": "RX010",
+      "rule_id": "RX002"
+    },
+    {
+      "reason": "reversal is not a new dispense",
+      "record_id": "RX010",
+      "rule_id": "RX001"
+    }
+  ],
+  "seed": 2026
+}

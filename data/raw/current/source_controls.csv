@@ -1,0 +1,7 @@
+source_name,expected_rows,expected_paid_cents,snapshot_date
+member_eligibility,13,0,2026-05-31
+provider_directory,6,0,2026-05-31
+pharmacy_directory,4,0,2026-05-31
+payer_claims,20,146350,2026-05-31
+provider_remittances,7,43725,2026-05-31
+pharmacy_claims,10,14234,2026-05-31

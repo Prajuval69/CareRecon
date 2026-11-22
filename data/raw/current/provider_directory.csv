@@ -1,0 +1,7 @@
+provider_id,specialty,active_from,active_to
+PR001,Primary Care,2025-01-01,2027-12-31
+PR002,Cardiology,2025-01-01,2027-12-31
+PR003,Radiology,2025-01-01,2027-12-31
+PR004,Orthopedics,2025-01-01,2027-12-31
+PR005,Dermatology,2025-01-01,2027-12-31
+PR006,General,2025-01-01,2027-12-31

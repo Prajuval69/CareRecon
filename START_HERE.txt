@@ -1,0 +1,10 @@
+CARE RECON — PROJECT 2 / MILLIMAN
+
+1. Extract this ZIP.
+2. Open the extracted folder in Codex.
+3. Read README_FIRST.md and AGENTS.md.
+4. Paste prompts/CODEX_START_MESSAGE.md into Codex.
+5. Tell Codex to build all required modules and run ALL acceptance tests.
+
+DO NOT put the starter kit on your resume as if the completed application exists.
+NO AWS. NO DOCKER. NO EXTERNAL APIS. NO REAL HEALTHCARE DATA.

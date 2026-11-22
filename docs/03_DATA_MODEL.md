@@ -1,0 +1,5 @@
+# Relational design and grain
+
+`payer_claims`: one expected logical record per payer claim ID *per snapshot*, though raw file may contain duplicates. A duplicate is not to be silently collapsed. `provider_remittances`: each row is a remittance event; many events could associate to one payer claim. Aggregate *posted* remittances to claim grain before comparing. `pharmacy_claims`: each row is a dispensing or reversal transaction; reversal explicitly points to an original. `member_eligibility`: one coverage interval per member in starter data; the real model should avoid assumptions that members never have multiple enrollments. `provider_directory` and `pharmacy_directory`: keyed reference entities. `source_controls`: one expected row count and paid total per source/snapshot.
+
+For money, use integer cents. The audit DB stores source file hash, row line number, raw JSON, business key and data contract version. Never join claim lines to payment events without grain-aware aggregation. A key missing in previous snapshot may reflect extraction window change and requires review, not proof of deletion.

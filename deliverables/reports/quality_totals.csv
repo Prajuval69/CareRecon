@@ -1,0 +1,9 @@
+﻿source_name,raw_rows,clean_rows,quarantined_rows,clean_paid_cents
+member_eligibility,13,13,0,
+payer_claims,19,14,5,109100
+payer_claims_previous,13,13,0,86450
+pharmacy_claims,10,8,2,13200
+pharmacy_directory,4,4,0,
+provider_directory,6,6,0,
+provider_remittances,7,7,0,43725
+source_controls,6,6,0,

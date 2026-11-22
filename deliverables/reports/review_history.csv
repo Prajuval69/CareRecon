@@ -1,0 +1,4 @@
+﻿event_id,finding_id,actor,old_status,new_status,reason,occurred_at
+1,c541010dd1aeedfe42526f5da3ba8859250f442295110ea8609fb7ad57eed492,demo-analyst,OPEN,ACKNOWLEDGED,Confirm the extract window before evaluating the missing key.,2026-11-22T05:39:35.792643+00:00
+2,d0216995b3ecca0ef0abee2b7f56b3251f569a8d6d6e8265e197cb01b88f8d3c,demo-analyst,OPEN,ACKNOWLEDGED,Reviewed the seeded denial with payment.,2026-11-22T05:39:35.931779+00:00
+3,d0216995b3ecca0ef0abee2b7f56b3251f569a8d6d6e8265e197cb01b88f8d3c,demo-analyst,ACKNOWLEDGED,WAIVED,Record a waiver for the synthetic review exercise.,2026-11-22T05:39:36.075684+00:00

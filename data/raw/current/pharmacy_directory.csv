@@ -1,0 +1,5 @@
+pharmacy_id,name,active_from,active_to
+PH001,Synthetic Pharmacy 1,2025-01-01,2027-12-31
+PH002,Synthetic Pharmacy 2,2025-01-01,2027-12-31
+PH003,Synthetic Pharmacy 3,2025-01-01,2027-12-31
+PH004,Synthetic Pharmacy 4,2025-01-01,2027-12-31

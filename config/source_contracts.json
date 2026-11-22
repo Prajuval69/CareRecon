@@ -1,0 +1,265 @@
+{
+  "contracts": {
+    "member_eligibility": {
+      "business_key": [
+        "member_id"
+      ],
+      "required": [
+        "member_id",
+        "effective_date",
+        "end_date",
+        "plan_id"
+      ],
+      "fields": {
+        "member_id": {
+          "type": "text"
+        },
+        "effective_date": {
+          "type": "date"
+        },
+        "end_date": {
+          "type": "date"
+        },
+        "plan_id": {
+          "type": "text"
+        }
+      },
+      "intervals": [
+        [
+          "effective_date",
+          "end_date"
+        ]
+      ]
+    },
+    "payer_claims": {
+      "business_key": [
+        "payer_claim_id"
+      ],
+      "money_col": "paid_cents",
+      "required": [
+        "payer_claim_id",
+        "member_id",
+        "provider_id",
+        "service_date",
+        "status",
+        "billed_cents",
+        "allowed_cents",
+        "paid_cents"
+      ],
+      "fields": {
+        "payer_claim_id": {
+          "type": "text"
+        },
+        "member_id": {
+          "type": "text",
+          "nullable": true
+        },
+        "provider_id": {
+          "type": "text"
+        },
+        "service_date": {
+          "type": "date"
+        },
+        "status": {
+          "type": "enum",
+          "choices": [
+            "PAID",
+            "DENIED"
+          ]
+        },
+        "billed_cents": {
+          "type": "integer"
+        },
+        "allowed_cents": {
+          "type": "integer"
+        },
+        "paid_cents": {
+          "type": "integer"
+        }
+      }
+    },
+    "pharmacy_claims": {
+      "business_key": [
+        "rx_claim_id"
+      ],
+      "money_col": "paid_cents",
+      "required": [
+        "rx_claim_id",
+        "member_id",
+        "pharmacy_id",
+        "ndc",
+        "fill_date",
+        "days_supply",
+        "quantity",
+        "paid_cents",
+        "transaction_type",
+        "original_rx_claim_id"
+      ],
+      "fields": {
+        "rx_claim_id": {
+          "type": "text"
+        },
+        "member_id": {
+          "type": "text"
+        },
+        "pharmacy_id": {
+          "type": "text"
+        },
+        "ndc": {
+          "type": "text"
+        },
+        "fill_date": {
+          "type": "date"
+        },
+        "days_supply": {
+          "type": "integer"
+        },
+        "quantity": {
+          "type": "integer",
+          "min": 0
+        },
+        "paid_cents": {
+          "type": "integer"
+        },
+        "transaction_type": {
+          "type": "enum",
+          "choices": [
+            "DISPENSE",
+            "REVERSAL"
+          ]
+        },
+        "original_rx_claim_id": {
+          "type": "text",
+          "nullable": true
+        }
+      }
+    },
+    "pharmacy_directory": {
+      "business_key": [
+        "pharmacy_id"
+      ],
+      "required": [
+        "pharmacy_id",
+        "name",
+        "active_from",
+        "active_to"
+      ],
+      "fields": {
+        "pharmacy_id": {
+          "type": "text"
+        },
+        "name": {
+          "type": "text"
+        },
+        "active_from": {
+          "type": "date"
+        },
+        "active_to": {
+          "type": "date"
+        }
+      },
+      "intervals": [
+        [
+          "active_from",
+          "active_to"
+        ]
+      ]
+    },
+    "provider_directory": {
+      "business_key": [
+        "provider_id"
+      ],
+      "required": [
+        "provider_id",
+        "specialty",
+        "active_from",
+        "active_to"
+      ],
+      "fields": {
+        "provider_id": {
+          "type": "text"
+        },
+        "specialty": {
+          "type": "text"
+        },
+        "active_from": {
+          "type": "date"
+        },
+        "active_to": {
+          "type": "date"
+        }
+      },
+      "intervals": [
+        [
+          "active_from",
+          "active_to"
+        ]
+      ]
+    },
+    "provider_remittances": {
+      "business_key": [
+        "remit_id"
+      ],
+      "money_col": "paid_cents",
+      "required": [
+        "remit_id",
+        "payer_claim_id",
+        "provider_id",
+        "remit_date",
+        "paid_cents",
+        "remit_status"
+      ],
+      "fields": {
+        "remit_id": {
+          "type": "text"
+        },
+        "payer_claim_id": {
+          "type": "text"
+        },
+        "provider_id": {
+          "type": "text"
+        },
+        "remit_date": {
+          "type": "date"
+        },
+        "paid_cents": {
+          "type": "integer"
+        },
+        "remit_status": {
+          "type": "enum",
+          "choices": [
+            "POSTED",
+            "VOID"
+          ]
+        }
+      }
+    },
+    "source_controls": {
+      "business_key": [
+        "source_name"
+      ],
+      "required": [
+        "source_name",
+        "expected_rows",
+        "expected_paid_cents",
+        "snapshot_date"
+      ],
+      "fields": {
+        "source_name": {
+          "type": "text"
+        },
+        "expected_rows": {
+          "type": "integer",
+          "min": 0
+        },
+        "expected_paid_cents": {
+          "type": "integer"
+        },
+        "snapshot_date": {
+          "type": "date"
+        }
+      }
+    }
+  },
+  "schema_version": 1
+}

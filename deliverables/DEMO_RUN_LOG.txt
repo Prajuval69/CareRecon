@@ -1,0 +1,128 @@
+> python --version
+Python 3.12.4
+SQLite version from Python: 3.45.3
+> python starter/generate_fixtures.py --seed 2026
+Generated 8 synthetic CSV fixtures with seed=2026
+  member_eligibility: 13 rows
+  provider_directory: 6 rows
+  pharmacy_directory: 4 rows
+  payer_claims: 19 rows
+  provider_remittances: 7 rows
+  pharmacy_claims: 10 rows
+  payer_claims_previous: 13 rows; source_controls: 6 rows
+> python starter/verify_fixtures.py
+PASS: starter fixtures, 13 planted scenarios and valid matched reversal RX010 verified
+Confirmed 9 original fixture and expected-scenario SHA-256 hashes.
+> python -m carerecon demo --reset
+run_id=6611c09938bcbab2747680dc0200744974c8f07338ac4fd5efcbe428f65dd47c
+Synthetic demo imported 78 records across 8 sources and produced 13 findings.
+PASS: 13/13 planted findings, RX010 clean, expected raw counts, SQLite integrity and SQL/Python parity
+output\generated\reports\findings.csv
+output\generated\reports\quality_totals.csv
+output\generated\reports\quarantine.csv
+output\generated\reports\reconciliation.csv
+output\generated\reports\review_history.csv
+output\generated\reports\run_manifest.json
+output\generated\reports\snapshot_changes.csv
+output\generated\reports\source_controls.csv
+output\generated\reports\source_lineage.csv
+output\generated\reports\summary.html
+> python -m carerecon init-db --db output/generated/evidence-2026.sqlite
+Initialized output\generated\evidence-2026.sqlite
+> python -m carerecon ingest --db output/generated/evidence-2026.sqlite --batch evidence-2026 --source-dir data/raw/current --snapshot-date 2026-05-31 --previous-date 2026-04-30
+run_id=1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc
+Imported current sources.
+> python -m carerecon validate --db output/generated/evidence-2026.sqlite --run 1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc
+validate complete for 1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc
+> python -m carerecon reconcile --db output/generated/evidence-2026.sqlite --run 1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc
+reconcile complete for 1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc
+> python -m carerecon compare-snapshot --db output/generated/evidence-2026.sqlite --run 1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc --current data/raw/current --previous data/raw/previous
+compare-snapshot complete for 1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc
+> python -m carerecon verify --db output/generated/evidence-2026.sqlite --run 1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc
+PASS: 13/13 planted findings, RX010 clean, expected raw counts, SQLite integrity and SQL/Python parity
+> python -m carerecon list-findings --db output/generated/evidence-2026.sqlite --run 1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc --status OPEN
+{"actor": "", "batch_id": "evidence-2026", "created_at": "2026-11-22T05:39:35.051307+00:00", "expected_value": "20", "finding_id": "5ca3a06fb5afdd3fb4184ab34c1b023d94c885902f3283e413061732018846bc", "message": "Source control expected row count differs from raw row count.", "observed_value": "19", "reason": "", "record_id": "payer_claims", "rule_id": "CT001", "rule_version": 1, "run_id": "1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc", "severity": "ERROR", "snapshot_date": "2026-05-31", "source": "source_controls", "source_file": "source_controls.csv", "source_sha256": "4ececca95d512955573f24e86e4edeab072e8b5c2d556224e14e426935936af3", "status": "OPEN"}
+{"actor": "", "batch_id": "evidence-2026", "created_at": "2026-11-22T05:39:35.051307+00:00", "expected_value": "14234", "finding_id": "9f2a32b234f83c322f5a17290de9b124e615741969c54d1bffdbb61d75a493a7", "message": "Source control expected paid cents differs from raw sum.", "observed_value": "13000", "reason": "", "record_id": "pharmacy_claims", "rule_id": "CT002", "rule_version": 1, "run_id": "1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc", "severity": "ERROR", "snapshot_date": "2026-05-31", "source": "source_controls", "source_file": "source_controls.csv", "source_sha256": "4ececca95d512955573f24e86e4edeab072e8b5c2d556224e14e426935936af3", "status": "OPEN"}
+{"actor": "", "batch_id": "evidence-2026", "created_at": "2026-11-22T05:39:35.049307+00:00", "expected_value": "1", "finding_id": "9fd4ff59a2b33c5cca140754414d8cf95ecf504f49c2ed84e19e5acf52ef1756", "message": "Claim ID repeated in current source; compare raw rows before curation.", "observed_value": "2", "reason": "", "record_id": "P003", "rule_id": "DQ001", "rule_version": 1, "run_id": "1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc", "severity": "ERROR", "snapshot_date": "2026-05-31", "source": "payer_claims", "source_file": "payer_claims.csv", "source_sha256": "f9c431a96c4afd28adc3d12f6b43c4f2c3d6421e6833ebe7ddc441637859cf31", "status": "OPEN"}
+{"actor": "", "batch_id": "evidence-2026", "created_at": "2026-11-22T05:39:35.051307+00:00", "expected_value": "\"nonblank member_id\"", "finding_id": "4a56b556931d7ac90d1a5fb369dce7928357d4e7da2d2bfff874ab611a5d2fa0", "message": "Member ID required for every claim.", "observed_value": "null", "reason": "", "record_id": "P006", "rule_id": "DQ002", "rule_version": 1, "run_id": "1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc", "severity": "ERROR", "snapshot_date": "2026-05-31", "source": "payer_claims", "source_file": "payer_claims.csv", "source_sha256": "f9c431a96c4afd28adc3d12f6b43c4f2c3d6421e6833ebe7ddc441637859cf31", "status": "OPEN"}
+{"actor": "", "batch_id": "evidence-2026", "created_at": "2026-11-22T05:39:35.051307+00:00", "expected_value": "\"provider_id in directory\"", "finding_id": "f1bb1e7c1f8e4f094f7851ea926311b460db4c6801f9493d4516cbc35481c52b", "message": "Provider key not found in provider directory.", "observed_value": "\"PR999\"", "reason": "", "record_id": "P007", "rule_id": "DQ003", "rule_version": 1, "run_id": "1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc", "severity": "ERROR", "snapshot_date": "2026-05-31", "source": "payer_claims", "source_file": "payer_claims.csv", "source_sha256": "f9c431a96c4afd28adc3d12f6b43c4f2c3d6421e6833ebe7ddc441637859cf31", "status": "OPEN"}
+{"actor": "", "batch_id": "evidence-2026", "created_at": "2026-11-22T05:39:35.051307+00:00", "expected_value": "{\"coverage_intervals\":[{\"effective_date\":\"2026-01-01\",\"end_date\":\"2026-06-30\"}]}", "finding_id": "5298903fa7dfad0612cedf61c94bf9756559caf8985db18d2214ff6d04b0fa4e", "message": "Service date outside identified member eligibility; review contract assumptions.", "observed_value": "{\"member_id\":\"M013\",\"service_date\":\"2026-11-15\"}", "reason": "", "record_id": "P008", "rule_id": "DQ004", "rule_version": 1, "run_id": "1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc", "severity": "WARN", "snapshot_date": "2026-05-31", "source": "payer_claims", "source_file": "payer_claims.csv", "source_sha256": "f9c431a96c4afd28adc3d12f6b43c4f2c3d6421e6833ebe7ddc441637859cf31", "status": "OPEN"}
+{"actor": "", "batch_id": "evidence-2026", "created_at": "2026-11-22T05:39:35.051307+00:00", "expected_value": "8650", "finding_id": "416fb236f4a603781ba63c678edf24b53a2778d6bc58443edb6c80e32bdc07de", "message": "Paid cents exceeds allowed cents for ordinary paid transaction.", "observed_value": "9200", "reason": "", "record_id": "P009", "rule_id": "DQ005", "rule_version": 1, "run_id": "1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc", "severity": "ERROR", "snapshot_date": "2026-05-31", "source": "payer_claims", "source_file": "payer_claims.csv", "source_sha256": "f9c431a96c4afd28adc3d12f6b43c4f2c3d6421e6833ebe7ddc441637859cf31", "status": "OPEN"}
+{"actor": "", "batch_id": "evidence-2026", "created_at": "2026-11-22T05:39:35.051307+00:00", "expected_value": "0", "finding_id": "d0216995b3ecca0ef0abee2b7f56b3251f569a8d6d6e8265e197cb01b88f8d3c", "message": "Denied claim has nonzero payment; may require adjudication context.", "observed_value": "300", "reason": "", "record_id": "P010", "rule_id": "DQ006", "rule_version": 1, "run_id": "1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc", "severity": "WARN", "snapshot_date": "2026-05-31", "source": "payer_claims", "source_file": "payer_claims.csv", "source_sha256": "f9c431a96c4afd28adc3d12f6b43c4f2c3d6421e6833ebe7ddc441637859cf31", "status": "OPEN"}
+{"actor": "", "batch_id": "evidence-2026", "created_at": "2026-11-22T05:39:35.193781+00:00", "expected_value": "8900", "finding_id": "421b14b7d5575ba2e9ceea8aad0925452fb09b66bfd64cf39d41408c33858fb4", "message": "Aggregated posted remittance amount differs from payer claim paid amount.", "observed_value": "9175", "reason": "", "record_id": "P012", "rule_id": "RC001", "rule_version": 1, "run_id": "1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc", "severity": "ERROR", "snapshot_date": "2026-05-31", "source": "provider_remittances", "source_file": "provider_remittances.csv", "source_sha256": "5593cc8f5a53d1a020b46e78febe553a3370c7f8a9afe7b856ccf944bd1b2578", "status": "OPEN"}
+{"actor": "", "batch_id": "evidence-2026", "created_at": "2026-11-22T05:39:35.193781+00:00", "expected_value": "\"payer claim present in extract\"", "finding_id": "8e86ad0f03115d5fd7e6e20ce18ba2b262fb2bc64472642aa7cc012f61b01b61", "message": "Remittance references non-existent payer claim.", "observed_value": "\"P_NO_SUCH_CLAIM\"", "reason": "", "record_id": "RM_ORPHAN", "rule_id": "RC002", "rule_version": 1, "run_id": "1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc", "severity": "ERROR", "snapshot_date": "2026-05-31", "source": "provider_remittances", "source_file": "provider_remittances.csv", "source_sha256": "5593cc8f5a53d1a020b46e78febe553a3370c7f8a9afe7b856ccf944bd1b2578", "status": "OPEN"}
+{"actor": "", "batch_id": "evidence-2026", "created_at": "2026-11-22T05:39:35.051307+00:00", "expected_value": "\"at least 1\"", "finding_id": "6cb4b700d0e16a031d0d077b1c265f3161b6e7a2cdc0e3e788dc6eac58668e1c", "message": "Positive dispensing transaction must have days_supply >=1.", "observed_value": "0", "reason": "", "record_id": "RX003", "rule_id": "RX001", "rule_version": 1, "run_id": "1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc", "severity": "ERROR", "snapshot_date": "2026-05-31", "source": "pharmacy_claims", "source_file": "pharmacy_claims.csv", "source_sha256": "13957824df4b486a016fa806a1aa90c9ae81ce96815121cef74b5da0c6731513", "status": "OPEN"}
+{"actor": "", "batch_id": "evidence-2026", "created_at": "2026-11-22T05:39:35.051307+00:00", "expected_value": "\"unique referenced dispense at same pharmacy, on or before reversal, with opposite payment\"", "finding_id": "8145ccb7bb99cd561803e52e896ce5c868f788955554e2da97287e8578c1430f", "message": "Reversal lacks a valid matching original transaction.", "observed_value": "{\"matching_reversals\":0,\"original_rx_claim_id\":\"RX_UNKNOWN\",\"paid_cents\":-1800,\"pharmacy_id\":\"PH004\"}", "reason": "", "record_id": "RX004", "rule_id": "RX002", "rule_version": 1, "run_id": "1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc", "severity": "ERROR", "snapshot_date": "2026-05-31", "source": "pharmacy_claims", "source_file": "pharmacy_claims.csv", "source_sha256": "13957824df4b486a016fa806a1aa90c9ae81ce96815121cef74b5da0c6731513", "status": "OPEN"}
+{"actor": "", "batch_id": "evidence-2026", "created_at": "2026-11-22T05:39:35.348702+00:00", "expected_value": "\"review expected extract scope\"", "finding_id": "c541010dd1aeedfe42526f5da3ba8859250f442295110ea8609fb7ad57eed492", "message": "Claim key present in prior snapshot missing in current; investigate late changes before conclusions.", "observed_value": "\"absent from current extract\"", "reason": "", "record_id": "P099", "rule_id": "SS001", "rule_version": 1, "run_id": "1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc", "severity": "REVIEW", "snapshot_date": "2026-04-30", "source": "payer_claims_previous", "source_file": "payer_claims_previous.csv", "source_sha256": "783f17e74a169d8aa9748931bb864c4dab6f2038b51a5535c14559959eb45e62", "status": "OPEN"}
+> python -m carerecon review --db output/generated/evidence-2026.sqlite --finding c541010dd1aeedfe42526f5da3ba8859250f442295110ea8609fb7ad57eed492 --status ACKNOWLEDGED --actor demo-analyst --reason Confirm the extract window before evaluating the missing key.
+Review event recorded.
+> python -m carerecon review --db output/generated/evidence-2026.sqlite --finding d0216995b3ecca0ef0abee2b7f56b3251f569a8d6d6e8265e197cb01b88f8d3c --status ACKNOWLEDGED --actor demo-analyst --reason Reviewed the seeded denial with payment.
+Review event recorded.
+> python -m carerecon review --db output/generated/evidence-2026.sqlite --finding d0216995b3ecca0ef0abee2b7f56b3251f569a8d6d6e8265e197cb01b88f8d3c --status WAIVED --actor demo-analyst --reason Record a waiver for the synthetic review exercise.
+Review event recorded.
+> python -m carerecon export --db output/generated/evidence-2026.sqlite --run 1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc --output deliverables/reports
+deliverables\reports\findings.csv
+deliverables\reports\quality_totals.csv
+deliverables\reports\quarantine.csv
+deliverables\reports\reconciliation.csv
+deliverables\reports\review_history.csv
+deliverables\reports\run_manifest.json
+deliverables\reports\snapshot_changes.csv
+deliverables\reports\source_controls.csv
+deliverables\reports\source_lineage.csv
+deliverables\reports\summary.html
+> python -m carerecon sql-report --db output/generated/evidence-2026.sqlite --run 1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc
+{"report": "Source row counts and independent raw amounts", "rows": [{"raw_paid_cents": null, "raw_records": 13, "source_name": "member_eligibility", "source_snapshot": "current"}, {"raw_paid_cents": 146350, "raw_records": 19, "source_name": "payer_claims", "source_snapshot": "current"}, {"raw_paid_cents": 86450, "raw_records": 13, "source_name": "payer_claims_previous", "source_snapshot": "previous"}, {"raw_paid_cents": 13000, "raw_records": 10, "source_name": "pharmacy_claims", "source_snapshot": "current"}, {"raw_paid_cents": null, "raw_records": 4, "source_name": "pharmacy_directory", "source_snapshot": "current"}, {"raw_paid_cents": null, "raw_records": 6, "source_name": "provider_directory", "source_snapshot": "current"}, {"raw_paid_cents": 43725, "raw_records": 7, "source_name": "provider_remittances", "source_snapshot": "current"}, {"raw_paid_cents": null, "raw_records": 6, "source_name": "source_controls", "source_snapshot": "current"}]}
+{"report": "Duplicated raw payer keys", "rows": [{"occurrences": 2, "payer_claim_id": "P003"}]}
+{"report": "Missing member or provider references", "rows": [{"member_id": null, "missing_member_reference": 1, "missing_provider_reference": 0, "payer_claim_id": "P006", "provider_id": "PR006"}, {"member_id": "M007", "missing_member_reference": 0, "missing_provider_reference": 1, "payer_claim_id": "P007", "provider_id": "PR999"}]}
+{"report": "Paid exceeds allowed or denial has payment", "rows": [{"allowed_cents": 8650, "paid_cents": 9200, "payer_claim_id": "P009", "transaction_status": "PAID"}, {"allowed_cents": 8800, "paid_cents": 300, "payer_claim_id": "P010", "transaction_status": "DENIED"}]}
+{"report": "Valid and orphan or incompatible pharmacy reversals", "rows": [{"original": "RX_UNKNOWN", "reversal": "RX004", "status": "ORPHAN_OR_INCOMPATIBLE"}, {"original": "RX002", "reversal": "RX010", "status": "MATCH"}]}
+{"report": "Reconciliation outcomes and posted-only totals", "rows": [{"difference_cents": 0, "expected_cents": 5750, "payer_claim_id": "P001", "remitted_cents": 5750, "status": "MATCH"}, {"difference_cents": 0, "expected_cents": 6200, "payer_claim_id": "P002", "remitted_cents": 6200, "status": "MATCH"}, {"difference_cents": null, "expected_cents": null, "payer_claim_id": "P003", "remitted_cents": 6650, "status": "AMBIGUOUS"}, {"difference_cents": 0, "expected_cents": 6900, "payer_claim_id": "P004", "remitted_cents": 6900, "status": "MATCH"}, {"difference_cents": 0, "expected_cents": 6750, "payer_claim_id": "P005", "remitted_cents": 6750, "status": "MATCH"}, {"difference_cents": null, "expected_cents": 7100, "payer_claim_id": "P006", "remitted_cents": null, "status": "NOT_AVAILABLE"}, {"difference_cents": null, "expected_cents": 7650, "payer_claim_id": "P007", "remitted_cents": null, "status": "NOT_AVAILABLE"}, {"difference_cents": null, "expected_cents": 7900, "payer_claim_id": "P008", "remitted_cents": null, "status": "NOT_AVAILABLE"}, {"difference_cents": null, "expected_cents": 9200, "payer_claim_id": "P009", "remitted_cents": null, "status": "NOT_AVAILABLE"}, {"difference_cents": null, "expected_cents": 300, "payer_claim_id": "P010", "remitted_cents": null, "status": "NOT_AVAILABLE"}, {"difference_cents": null, "expected_cents": 8650, "payer_claim_id": "P011", "remitted_cents": null, "status": "NOT_AVAILABLE"}, {"difference_cents": 275, "expected_cents": 8900, "payer_claim_id": "P012", "remitted_cents": 9175, "status": "MISMATCH"}, {"difference_cents": null, "expected_cents": 9050, "payer_claim_id": "P013", "remitted_cents": null, "status": "NOT_AVAILABLE"}, {"difference_cents": null, "expected_cents": 9400, "payer_claim_id": "P014", "remitted_cents": null, "status": "NOT_AVAILABLE"}, {"difference_cents": null, "expected_cents": 9550, "payer_claim_id": "P015", "remitted_cents": null, "status": "NOT_AVAILABLE"}, {"difference_cents": null, "expected_cents": 9600, "payer_claim_id": "P016", "remitted_cents": null, "status": "NOT_AVAILABLE"}, {"difference_cents": null, "expected_cents": 9750, "payer_claim_id": "P017", "remitted_cents": null, "status": "NOT_AVAILABLE"}, {"difference_cents": null, "expected_cents": 10400, "payer_claim_id": "P018", "remitted_cents": null, "status": "NOT_AVAILABLE"}, {"difference_cents": null, "expected_cents": null, "payer_claim_id": "P_NO_SUCH_CLAIM", "remitted_cents": 2300, "status": "ORPHAN"}]}
+{"report": "Remittances referencing absent claims", "rows": [{"paid_cents": 2300, "payer_claim_id": "P_NO_SUCH_CLAIM", "remit_id": "RM_ORPHAN"}]}
+{"report": "Prior and current payer key differences", "rows": [{"business_key": "P013", "side": "CURRENT_ONLY"}, {"business_key": "P014", "side": "CURRENT_ONLY"}, {"business_key": "P015", "side": "CURRENT_ONLY"}, {"business_key": "P016", "side": "CURRENT_ONLY"}, {"business_key": "P017", "side": "CURRENT_ONLY"}, {"business_key": "P018", "side": "CURRENT_ONLY"}, {"business_key": "P099", "side": "PRIOR_ONLY"}]}
+{"report": "Findings by severity and review status", "rows": [{"findings": 10, "severity": "ERROR", "status": "OPEN"}, {"findings": 1, "severity": "REVIEW", "status": "ACKNOWLEDGED"}, {"findings": 1, "severity": "WARN", "status": "OPEN"}, {"findings": 1, "severity": "WARN", "status": "WAIVED"}]}
+{"report": "Append-only review history", "rows": [{"actor": "demo-analyst", "event_id": 1, "finding_id": "c541010dd1aeedfe42526f5da3ba8859250f442295110ea8609fb7ad57eed492", "new_status": "ACKNOWLEDGED", "occurred_at": "2026-11-22T05:39:35.792643+00:00", "old_status": "OPEN", "reason": "Confirm the extract window before evaluating the missing key."}, {"actor": "demo-analyst", "event_id": 2, "finding_id": "d0216995b3ecca0ef0abee2b7f56b3251f569a8d6d6e8265e197cb01b88f8d3c", "new_status": "ACKNOWLEDGED", "occurred_at": "2026-11-22T05:39:35.931779+00:00", "old_status": "OPEN", "reason": "Reviewed the seeded denial with payment."}, {"actor": "demo-analyst", "event_id": 3, "finding_id": "d0216995b3ecca0ef0abee2b7f56b3251f569a8d6d6e8265e197cb01b88f8d3c", "new_status": "WAIVED", "occurred_at": "2026-11-22T05:39:36.075684+00:00", "old_status": "ACKNOWLEDGED", "reason": "Record a waiver for the synthetic review exercise."}]}
+> python -m carerecon ingest --db output/generated/evidence-2026.sqlite --batch evidence-2026 --source-dir data/raw/current --snapshot-date 2026-05-31 --previous-date 2026-04-30
+run_id=1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc
+Reused identical current sources.
+> python -m carerecon validate --db output/generated/evidence-2026.sqlite --run 1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc
+validate complete for 1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc
+> python -m carerecon reconcile --db output/generated/evidence-2026.sqlite --run 1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc
+reconcile complete for 1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc
+> python -m carerecon compare-snapshot --db output/generated/evidence-2026.sqlite --run 1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc --current data/raw/current --previous data/raw/previous
+compare-snapshot complete for 1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc
+> python -m carerecon export --db output/generated/evidence-2026.sqlite --run 1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc --output deliverables/reports
+deliverables\reports\findings.csv
+deliverables\reports\quality_totals.csv
+deliverables\reports\quarantine.csv
+deliverables\reports\reconciliation.csv
+deliverables\reports\review_history.csv
+deliverables\reports\run_manifest.json
+deliverables\reports\snapshot_changes.csv
+deliverables\reports\source_controls.csv
+deliverables\reports\source_lineage.csv
+deliverables\reports\summary.html
+> python -m carerecon verify --db output/generated/evidence-2026.sqlite --run 1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc
+PASS: 13/13 planted findings, RX010 clean, expected raw counts, SQLite integrity and SQL/Python parity
+Confirmed identical SHA-256 digests across all 10 reports after a full rerun.
+> python scripts/load_test.py --size 10000
+Synthetic load: 10,000 added claim/remit pairs, 20,078 raw rows, 10,000 added matches, 10 exports.
+PASS: SQLite integrity, SQL/Python reconciliation and raw control parity
+Observed elapsed pipeline time: 2.172 s
+Evidence run 1aaf06271841b46ba313d665b120c9418894f37cfd2729bcfc7e225a026e80cc evidence-2026 COMPLETE
+SQLite health ok
+Foreign-key violations 0
+SQLite row counts {'run': 1, 'run_event': 5, 'run_stage': 4, 'ingest_source': 8, 'raw_row': 78, 'typed_row': 78, 'finding': 13, 'reconciliation': 19, 'control_result': 6, 'snapshot_change': 19, 'review_event': 3, 'export_artifact': 10}
+Finding states {'OPEN': 11, 'WAIVED': 1, 'ACKNOWLEDGED': 1}
+Reconciliation states {'AMBIGUOUS': 1, 'MATCH': 4, 'MISMATCH': 1, 'NOT_AVAILABLE': 12, 'ORPHAN': 1}
+Reconciliation P001 MATCH 5750 5750 0
+Reconciliation P003 AMBIGUOUS  6650 
+Reconciliation P012 MISMATCH 8900 9175 275
+Reconciliation P_NO_SUCH_CLAIM ORPHAN  2300 
+Snapshot states {'ADDED': 6, 'AMBIGUOUS': 1, 'DISAPPEARED': 1, 'UNCHANGED': 11}
+Payer control declared/observed rows 20 19
+Pharmacy control declared/observed cents 14234 13000
+Review event 1 demo-analyst OPEN ACKNOWLEDGED Confirm the extract window before evaluating the missing key.
+Review event 2 demo-analyst OPEN ACKNOWLEDGED Reviewed the seeded denial with payment.
+Review event 3 demo-analyst ACKNOWLEDGED WAIVED Record a waiver for the synthetic review exercise.
+Inspected offline HTML plus 10 current report bytes and matching SQLite digests.
